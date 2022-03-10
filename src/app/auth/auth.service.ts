@@ -11,7 +11,7 @@ export interface SignupData {
   password: string,
   nome: string;
   cognome: string;
-  roles: [
+  role: [
     {
       id: number,
       roleName: 'user' | 'admin'
@@ -26,7 +26,7 @@ export interface AuthData {
     email: string,
     nome: string,
     cognome: string,
-    roles: {
+    role: {
       id: number,
       roleName: string
     }

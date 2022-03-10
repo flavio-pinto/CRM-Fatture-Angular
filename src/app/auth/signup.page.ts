@@ -86,14 +86,14 @@ import { AuthService } from "./auth.service";
               </span>
             </div>
             <div class="form-group mb-4">
-              <label for="roles" class="mb-2">Ruolo</label>
-              <select formControlName="roles" class="form-select" aria-label="Default select example">
+              <label for="role" class="mb-2">Ruolo</label>
+              <select formControlName="role" class="form-select" aria-label="Default select example">
                 <option value="" selected>Seleziona un ruolo</option>
                 <option value="admin">Admin</option>
                 <option value="user">User</option>
               </select>
-              <span *ngIf="!form.controls['roles'].valid && form.controls['roles']?.touched" class="text-danger">
-                <ng-container *ngIf="getErrorController('roles', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
+              <span *ngIf="!form.controls['roleName'].valid && form.controls['roleName']?.touched" class="text-danger">
+                <ng-container *ngIf="getErrorController('role', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
               </span>
             </div>
             <button type="submit" class="btn btn-primary">Invia</button>
@@ -122,11 +122,13 @@ export class SignupPage implements OnInit {
       email: this.fb.control(null, [Validators.required, Validators.email]),
       nome: this.fb.control(null, Validators.required),
       cognome: this.fb.control(null, Validators.required),
-      roles: this.fb.control(null, Validators.required)
+      roleName: this.fb.control(null, Validators.required)
     })
   }
 
   async onSubmit(form: FormGroup) {
+    console.log(form.value);
+
     this.isLoading = true;
     try {
       await this.authSrv.signup(form.value).toPromise();
