@@ -10,7 +10,19 @@ import { AuthService } from "./auth.service";
         <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
           {{errorMessage}}
         </div>
-        <form #form="ngForm" (ngSubmit)="onsubmit(form)">
+        <form #form="ngForm" (ngSubmit)="onSubmit(form)">
+          <div class="form-group mb-2">
+            <label for="username">Username</label>
+            <input ngModel name="username" class="form-control" type="text" id="username" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="email">Email</label>
+            <input ngModel name="email" class="form-control" type="email" id="email" />
+          </div>
+          <div class="form-group mb-2">
+            <label for="pass">Password</label>
+            <input ngModel name="password" class="form-control" type="password" id="password" />
+          </div>
           <div class="form-group mb-2">
             <label for="name">Nome</label>
             <input ngModel name="name" class="form-control" type="text" id="name" />
@@ -20,21 +32,17 @@ import { AuthService } from "./auth.service";
             <input ngModel name="surname" class="form-control" type="text" id="cognome" />
           </div>
           <div class="form-group mb-2">
-            <label for="email">Email</label>
-            <input ngModel name="email" class="form-control" type="email" id="email" />
-          </div>
-          <div class="form-group mb-2">
-            <label for="pass">Password</label>
-            <input ngModel name="password" class="form-control" type="password" id="pass" />
-          </div>
-          <div class="form-group mb-2">
-            <h4>Tipo di impiego:</h4>
-            <label for="amministrativo" class="me-1">Amministrativo</label>
+            <h4>Ruolo:</h4>
+            <!-- <label for="amministrativo" class="me-1">Amministrativo</label>
             <input ngModel name="type" class="form-check-input me-3" type="radio" value="amministrativo" />
             <label for="contabile" class="me-1">Contabile</label>
             <input ngModel name="type" class="form-check-input me-3" type="radio" value="contabile" />
             <label for="commerciale" class="me-1">Commerciale</label>
-            <input ngModel name="type" class="form-check-input me-3" type="radio" value="commerciale" />
+            <input ngModel name="type" class="form-check-input me-3" type="radio" value="commerciale" /> -->
+            <select ngModel class="form-control">
+              <option value="ROLE_USER"></option>
+              <option value="ROLE_ADMIN"></option>
+            </select>
           </div>
           <button class="btn btn-primary mt-3 mb-3" [disabled]="isLoading" type="submit">
             Registrati
@@ -59,7 +67,7 @@ export class SignupPage implements OnInit {
 
   ngOnInit(): void {}
 
-  async onsubmit(form: NgForm) {
+  async onSubmit(form: NgForm) {
     this.isLoading = true;
     try {
       await this.authSrv.signup(form.value).toPromise();

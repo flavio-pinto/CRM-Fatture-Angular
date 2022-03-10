@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { LoginPage } from './login.page';
 import { SignupPage } from './signup.page';
 import { RouterModule } from '@angular/router';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './token.interceptor';
 
@@ -17,6 +17,7 @@ import { TokenInterceptor } from './token.interceptor';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     RouterModule.forChild([
       {

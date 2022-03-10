@@ -1,35 +1,33 @@
 import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 
 @Component({
   template: `
-  <div class="container mt-5 text-center p-5">
-    <div class="row justify-content-center">
-      <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-          {{errorMessage}}
+    <div class="container mt-5 text-center p-5">
+        <div class="row">
+          <div class="col">
+            <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+              <div class="form-group mb-4">
+                <label for="username" class="mb-2">Username</label>
+                <input type="text" formControlName="username" id="username" class="form-control">
+                <span *ngIf="!form.controls['username'].valid && form.controls['username']?.touched" class="text-danger">
+                  <ng-container *ngIf="getErrorController('username', 'required')">Devi inserire un username!</ng-container>
+                </span>
+              </div>
+              <div class="form-group mb-4">
+                <label for="password" class="mb-2">Password</label>
+                <input type="password" formControlName="password" id="password" class="form-control">
+                <span *ngIf="!form.controls['password'].valid && form.controls['password']?.touched" class="text-danger">
+                  <ng-container *ngIf="getErrorController('password', 'required')" class="text-danger">Devi inserire una password!</ng-container>
+                </span>
+              </div>
+              <button type="submit" class="btn btn-primary">Invia</button>
+            </form>
+          </div>
         </div>
-        <form class="mb-3" #form="ngForm" (ngSubmit)="onSubmit(form)" >
-          <div class="form-group">
-            <label for="username">Username</label>
-            <input ngModel name="username" class="form-control" type="text" id="username" />
-          </div>
-          <div class="form-group">
-            <label for="pass">Password</label>
-            <input ngModel name="password" class="form-control" type="password" id="pass" />
-          </div>
-          <button  class="btn btn-primary mt-3" [disabled]="isLoading" type="submit">Accedi
-          <span
-              *ngIf="isLoading"
-              class="spinner-border spinner-border-sm"
-              role="status"
-              aria-hidden="true"
-            ></span>
-          </button>
-        </form>
-        <p>Nuovo utente? <a [routerLink]="['/signup']">Registrati</a></p>
       </div>
-    </div>
   `,
   styles: [`
   .container {
@@ -38,19 +36,23 @@ import { AuthService } from "./auth.service";
   }`],
 })
 export class LoginPage implements OnInit {
+  form!: FormGroup;
   isLoading = false
   errorMessage = undefined
-  constructor(private authSrv:AuthService,private router:Router) {}
+  constructor(private authSrv: AuthService, private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
 
+    this.form = this.fb.group({
+      username: this.fb.control(null, Validators.required),
+      password: this.fb.control(null, Validators.required)
+    })
   }
 
-  async onSubmit(form:any){
+  async onSubmit(form: any){
     try {
       console.log(form.value);
       await this.authSrv.login(form.value).toPromise()
-
 
       form.reset()
       this.errorMessage=undefined
@@ -59,5 +61,9 @@ export class LoginPage implements OnInit {
       this.errorMessage = error
       console.error(error)
     }
+  }
+
+  getErrorController(name: string, error: string) {
+    return this.form.get(name)?.errors![error];
   }
 }

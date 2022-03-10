@@ -14,7 +14,7 @@ export interface SignupData {
   roles: [
     {
       id: number,
-      roleName: string
+      roleName: 'ROLE_ADMIN' | 'ROLE_USER'
     }
   ]
 }
