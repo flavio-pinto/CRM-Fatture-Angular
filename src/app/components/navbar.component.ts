@@ -28,18 +28,27 @@ import { Component, OnInit } from '@angular/core';
           <li class="nav-item">
             <a
               class="nav-link"
+              [routerLink]="['/login']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               >Login</a
             >
           </li>
           <li class="nav-item">
             <a
               class="nav-link"
+              [routerLink]="['/signup']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               >Signup</a
             >
           </li>
           <li class="nav-item">
             <a
               class="nav-link"
+              [routerLink]="['/utenti']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               >Utenti</a
             >
           </li>
