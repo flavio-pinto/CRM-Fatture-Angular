@@ -1,11 +1,11 @@
 import { Component, OnInit } from "@angular/core";
-import { NgForm } from "@angular/forms";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 
 @Component({
   template: `
-  <div class="container text-center p-5 mt-5 rounded">
+  <!-- <div class="container text-center p-5 mt-5 rounded">
     <div class="row justify-content-center">
         <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
           {{errorMessage}}
@@ -33,12 +33,6 @@ import { AuthService } from "./auth.service";
           </div>
           <div class="form-group mb-2">
             <h4>Ruolo:</h4>
-            <!-- <label for="amministrativo" class="me-1">Amministrativo</label>
-            <input ngModel name="type" class="form-check-input me-3" type="radio" value="amministrativo" />
-            <label for="contabile" class="me-1">Contabile</label>
-            <input ngModel name="type" class="form-check-input me-3" type="radio" value="contabile" />
-            <label for="commerciale" class="me-1">Commerciale</label>
-            <input ngModel name="type" class="form-check-input me-3" type="radio" value="commerciale" /> -->
             <select ngModel class="form-control">
               <option value="ROLE_USER"></option>
               <option value="ROLE_ADMIN"></option>
@@ -51,6 +45,61 @@ import { AuthService } from "./auth.service";
         </form>
         <p>Sei già registrato? <a [routerLink]="['/login']">Accedi</a></p>
       </div>
+    </div> -->
+    <div class="container mt-5 text-center p-5">
+      <div class="row">
+        <div class="col">
+          <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
+            <div class="form-group mb-4">
+              <label for="username" class="mb-2">Username</label>
+              <input type="text" formControlName="username" id="username" class="form-control">
+              <span *ngIf="!form.controls['username'].valid && form.controls['username']?.touched" class="text-danger">
+                <ng-container *ngIf="getErrorController('username', 'required')">Devi inserire un username!</ng-container>
+              </span>
+            </div>
+            <div class="form-group mb-4">
+                <label for="email">Email</label>
+                <input type="email" formControlName="email" id="email" class="form-control">
+                <span *ngIf="!form.controls['email'].valid && form.controls['email']?.touched" class="text-danger">
+                  <ng-container *ngIf="getErrorController('email', 'required')">Devi inserire una email!</ng-container>
+                </span>
+            </div>
+            <div class="form-group mb-4">
+              <label for="password" class="mb-2">Password</label>
+              <input type="password" formControlName="password" id="password" class="form-control">
+              <span *ngIf="!form.controls['password'].valid && form.controls['password']?.touched" class="text-danger">
+                <ng-container *ngIf="getErrorController('password', 'required')" class="text-danger">Devi inserire una password!</ng-container>
+              </span>
+            </div>
+            <div class="form-group mb-4">
+              <label for="nome" class="mb-2">Nome</label>
+              <input type="text" formControlName="nome" id="nome" class="form-control">
+              <span *ngIf="!form.controls['nome'].valid && form.controls['nome']?.touched" class="text-danger">
+                <ng-container *ngIf="getErrorController('nome', 'required')">Devi inserire un nome!</ng-container>
+              </span>
+            </div>
+            <div class="form-group mb-4">
+              <label for="cognome" class="mb-2">Cognome</label>
+              <input type="text" formControlName="cognome" id="cognome" class="form-control">
+              <span *ngIf="!form.controls['cognome'].valid && form.controls['cognome']?.touched" class="text-danger">
+                <ng-container *ngIf="getErrorController('cognome', 'required')">Devi inserire un cognome!</ng-container>
+              </span>
+            </div>
+            <div class="form-group mb-4">
+              <label for="roles" class="mb-2">Ruolo</label>
+              <select formControlName="roles" class="form-select" aria-label="Default select example">
+                <option value="" selected>Seleziona un ruolo</option>
+                <option value="admin">Admin</option>
+                <option value="user">User</option>
+              </select>
+              <span *ngIf="!form.controls['roles'].valid && form.controls['roles']?.touched" class="text-danger">
+                <ng-container *ngIf="getErrorController('roles', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
+              </span>
+            </div>
+            <button type="submit" class="btn btn-primary">Invia</button>
+          </form>
+        </div>
+      </div>
     </div>
   `,
   styles: [`
@@ -61,13 +110,23 @@ import { AuthService } from "./auth.service";
   `],
 })
 export class SignupPage implements OnInit {
+  form!: FormGroup;
   isLoading = false;
   errorMessage = undefined
-  constructor(private authSrv: AuthService, private router:Router) {}
+  constructor(private authSrv: AuthService, private router: Router, private fb: FormBuilder) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.form = this.fb.group({
+      username: this.fb.control(null, Validators.required),
+      password: this.fb.control(null, Validators.required),
+      email: this.fb.control(null, [Validators.required, Validators.email]),
+      nome: this.fb.control(null, Validators.required),
+      cognome: this.fb.control(null, Validators.required),
+      roles: this.fb.control(null, Validators.required)
+    })
+  }
 
-  async onSubmit(form: NgForm) {
+  async onSubmit(form: FormGroup) {
     this.isLoading = true;
     try {
       await this.authSrv.signup(form.value).toPromise();
@@ -80,5 +139,9 @@ export class SignupPage implements OnInit {
       this.errorMessage = error
       console.error(error);
     }
+  }
+
+  getErrorController(name: string, error: string) {
+    return this.form.get(name)?.errors![error];
   }
 }

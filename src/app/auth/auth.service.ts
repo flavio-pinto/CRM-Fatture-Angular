@@ -14,7 +14,7 @@ export interface SignupData {
   roles: [
     {
       id: number,
-      roleName: 'ROLE_ADMIN' | 'ROLE_USER'
+      roleName: 'user' | 'admin'
     }
   ]
 }
@@ -66,9 +66,7 @@ export class AuthService {
   }
 
   signup(data: SignupData) {
-    return this.http
-      .post(`${this.baseURL}/register`, data)
-      .pipe(catchError(this.errors));
+    return this.http.post(`${this.baseURL}/api/auth/signup`, data).pipe(catchError(this.errors));
   }
 
   logout(){
