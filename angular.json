@@ -10,7 +10,8 @@
           "inlineTemplate": true,
           "inlineStyle": true,
           "style": "scss",
-          "skipTests": true
+          "skipTests": true,
+          "flat": true
         },
         "@schematics/angular:class": {
           "skipTests": true
@@ -57,7 +58,7 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.min.js"]
           },
           "configurations": {
             "production": {
