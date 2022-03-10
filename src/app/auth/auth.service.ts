@@ -26,7 +26,7 @@ export interface AuthData {
     email: string,
     nome: string,
     cognome: string,
-    role: {
+    roles: {
       id: number,
       roleName: string
     }

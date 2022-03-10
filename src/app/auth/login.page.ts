@@ -51,7 +51,6 @@ export class LoginPage implements OnInit {
 
   async onSubmit(form: any){
     try {
-      console.log(form.value);
       await this.authSrv.login(form.value).toPromise()
 
       form.reset()

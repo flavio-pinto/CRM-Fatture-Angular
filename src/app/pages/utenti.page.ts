@@ -42,7 +42,7 @@ import { UsersService } from '../services/users.service';
 export class UtentiPage implements OnInit {
   users!: User[];
   totalPages!: number;
-  pages!: number[];
+  pages: number[] = [];
   currentPage: number = 0;
 
   constructor(private usersSrv: UsersService) {
