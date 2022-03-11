@@ -11,7 +11,7 @@ import { ClientiService } from '../services/clienti.service';
           <th scope="col">Ragione Sociale</th>
           <th scope="col">Email</th>
           <th scope="col">Partita Iva</th>
-          <th scope="col"><button type="button" class="btn btn-success">Nuova</button></th>
+          <th scope="col"><button type="button" class="btn btn-success">Nuovo utente</button></th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>
