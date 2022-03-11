@@ -5,47 +5,6 @@ import { AuthService } from "./auth.service";
 
 @Component({
   template: `
-  <!-- <div class="container text-center p-5 mt-5 rounded">
-    <div class="row justify-content-center">
-        <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
-          {{errorMessage}}
-        </div>
-        <form #form="ngForm" (ngSubmit)="onSubmit(form)">
-          <div class="form-group mb-2">
-            <label for="username">Username</label>
-            <input ngModel name="username" class="form-control" type="text" id="username" />
-          </div>
-          <div class="form-group mb-2">
-            <label for="email">Email</label>
-            <input ngModel name="email" class="form-control" type="email" id="email" />
-          </div>
-          <div class="form-group mb-2">
-            <label for="pass">Password</label>
-            <input ngModel name="password" class="form-control" type="password" id="password" />
-          </div>
-          <div class="form-group mb-2">
-            <label for="name">Nome</label>
-            <input ngModel name="name" class="form-control" type="text" id="name" />
-          </div>
-          <div class="form-group mb-2">
-            <label for="cognome">Cognome</label>
-            <input ngModel name="surname" class="form-control" type="text" id="cognome" />
-          </div>
-          <div class="form-group mb-2">
-            <h4>Ruolo:</h4>
-            <select ngModel class="form-control">
-              <option value="ROLE_USER"></option>
-              <option value="ROLE_ADMIN"></option>
-            </select>
-          </div>
-          <button class="btn btn-primary mt-3 mb-3" [disabled]="isLoading" type="submit">
-            Registrati
-            <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-          </button>
-        </form>
-        <p>Sei già registrato? <a [routerLink]="['/login']">Accedi</a></p>
-      </div>
-    </div> -->
     <div class="container mt-5 text-center p-5">
       <div class="row">
         <div class="col">
@@ -94,7 +53,7 @@ import { AuthService } from "./auth.service";
                   <option value="user">User</option>
                 </select>
               </div>
-              <!-- <span *ngIf="!form.controls['roleName'].valid && form.controls['roleName']?.touched" class="text-danger">
+              <!-- <span *ngIf="!form.controls['role'].valid && form.controls['role']?.touched" class="text-danger">
                 <ng-container *ngIf="getErrorController('role', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
               </span> -->
             </div>
@@ -124,7 +83,7 @@ export class SignupPage implements OnInit {
       email: this.fb.control(null, [Validators.required, Validators.email]),
       nome: this.fb.control(null, Validators.required),
       cognome: this.fb.control(null, Validators.required),
-      role: this.fb.array([])
+      role: this.fb.array([], Validators.required)
     })
 
     this.form.statusChanges.subscribe(value=> {

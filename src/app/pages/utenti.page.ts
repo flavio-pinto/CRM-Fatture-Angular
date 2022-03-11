@@ -22,7 +22,7 @@ import { UsersService } from '../services/users.service';
           <td>{{user.nome}}</td>
           <td>{{user.cognome}}</td>
           <td>{{user.email}}</td>
-          <td>{{user.roles[0].roleName}}</td>
+          <td><span *ngFor="let item of user.roles">{{item.roleName}}</span></td>
         </tr>
       </tbody>
   </table>
