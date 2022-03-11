@@ -18,9 +18,9 @@ import { UsersService } from '../services/users.service';
       <tbody>
         <tr *ngFor="let user of users">
           <td>{{user.id}}</td>
+          <td>{{user.username}}</td>
           <td>{{user.nome}}</td>
           <td>{{user.cognome}}</td>
-          <td>{{user.username}}</td>
           <td>{{user.email}}</td>
           <td>{{user.roles[0].roleName}}</td>
         </tr>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
 import { Router } from "@angular/router";
 import { AuthService } from "./auth.service";
 
@@ -85,16 +85,18 @@ import { AuthService } from "./auth.service";
                 <ng-container *ngIf="getErrorController('cognome', 'required')">Devi inserire un cognome!</ng-container>
               </span>
             </div>
-            <div class="form-group mb-4">
+            <div class="form-group mb-4" formArrayName="role">
               <label for="role" class="mb-2">Ruolo</label>
-              <select formControlName="role" class="form-select" aria-label="Default select example">
-                <option value="" selected>Seleziona un ruolo</option>
-                <option value="admin">Admin</option>
-                <option value="user">User</option>
-              </select>
-              <span *ngIf="!form.controls['roleName'].valid && form.controls['roleName']?.touched" class="text-danger">
+              <div *ngFor="let r of getRole(); let i = index">
+                <select [formControlName]="i" class="form-select" aria-label="Default select example">
+                  <option value="" selected>Seleziona un ruolo</option>
+                  <option value="admin">Admin</option>
+                  <option value="user">User</option>
+                </select>
+              </div>
+              <!-- <span *ngIf="!form.controls['roleName'].valid && form.controls['roleName']?.touched" class="text-danger">
                 <ng-container *ngIf="getErrorController('role', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
-              </span>
+              </span> -->
             </div>
             <button type="submit" class="btn btn-primary">Invia</button>
           </form>
@@ -122,8 +124,18 @@ export class SignupPage implements OnInit {
       email: this.fb.control(null, [Validators.required, Validators.email]),
       nome: this.fb.control(null, Validators.required),
       cognome: this.fb.control(null, Validators.required),
-      roleName: this.fb.control(null, Validators.required)
+      role: this.fb.array([])
     })
+
+    this.form.statusChanges.subscribe(value=> {
+      console.log(value);
+    });
+
+    this.form.valueChanges.subscribe(value=> {
+      console.log(value);
+    });
+
+    this.addSelectRole();
   }
 
   async onSubmit(form: FormGroup) {
@@ -141,6 +153,15 @@ export class SignupPage implements OnInit {
       this.errorMessage = error
       console.error(error);
     }
+  }
+
+  addSelectRole() {
+    const control = new FormControl(null, Validators.required);
+    (this.form.get('role') as FormArray).push(control);
+  }
+
+  getRole() {
+    return (this.form.get('role') as FormArray).controls;
   }
 
   getErrorController(name: string, error: string) {
