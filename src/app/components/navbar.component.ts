@@ -55,6 +55,9 @@ import { Component, OnInit } from '@angular/core';
           <li class="nav-item">
             <a
               class="nav-link"
+              [routerLink]="['/clienti']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               >Clienti</a
             >
           </li>

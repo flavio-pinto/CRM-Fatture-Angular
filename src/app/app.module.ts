@@ -6,12 +6,14 @@ import { AppComponent } from './app.component';
 import { AuthModule } from './auth/auth.module';
 import { NavbarComponent } from './components/navbar.component';
 import { UtentiPage } from './pages/utenti.page';
+import { ClientiPage } from './pages/clienti.page';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavbarComponent,
-    UtentiPage
+    UtentiPage,
+    ClientiPage
   ],
   imports: [
     BrowserModule,

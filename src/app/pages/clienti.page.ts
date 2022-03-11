@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { User } from '../models/user';
-import { UsersService } from '../services/users.service';
+import { Cliente } from '../models/cliente';
+import { ClientiService } from '../services/clienti.service';
 
 @Component({
   template: `
@@ -8,24 +8,27 @@ import { UsersService } from '../services/users.service';
       <thead>
         <tr>
           <th scope="col">id</th>
-          <th scope="col">Username</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Cognome</th>
-          <th scope="col">email</th>
-          <th scope="col">Ruolo</th>
+          <th scope="col">Ragione Sociale</th>
+          <th scope="col">Email</th>
+          <th scope="col">Partita Iva</th>
+          <th scope="col"><button type="button" class="btn btn-success">Nuova</button></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let user of users">
-          <td>{{user.id}}</td>
-          <td>{{user.username}}</td>
-          <td>{{user.nome}}</td>
-          <td>{{user.cognome}}</td>
-          <td>{{user.email}}</td>
-          <td><span *ngFor="let item of user.roles">{{item.roleName}}</span></td>
+        <tr *ngFor="let cliente of response.content">
+          <td>{{cliente.id}}</td>
+          <td>{{cliente.ragioneSociale}}</td>
+          <td>{{cliente.email}}</td>
+          <td>{{cliente.partitaIva}}</td>
+          <td><button type="button" class="btn btn-info">Fatture</button></td>
+          <td><button type="button" class="btn btn-warning">Modifica</button></td>
+          <td><button type="button" class="btn btn-danger">Elimina</button></td>
         </tr>
       </tbody>
   </table>
+
   <nav aria-label="Page navigation example">
     <ul class="pagination">
       <li *ngIf="response.first == false; else elsePrevious" class="page-item" (click)="goToPage(response.number - 1)"><a class="page-link">Previous</a></li>
@@ -46,28 +49,24 @@ import { UsersService } from '../services/users.service';
     }
   `]
 })
-export class UtentiPage implements OnInit {
-  users!: User[];
+export class ClientiPage implements OnInit {
   response!: any;
   pages: number[] = [];
 
-  constructor(private usersSrv: UsersService) {
-  }
+  constructor(private clientiSrv: ClientiService) { }
 
   ngOnInit(): void {
-    this.usersSrv.getAllUsers(0).subscribe(res => {
-      this.users = res.content;
+    this.clientiSrv.getClienti(0).subscribe(res => {
       this.response = res;
       this.pages = Array(this.response.totalPages).fill(0).map((x, i) => i)
-      console.log(this.users);
     })
   }
 
   goToPage(page: number) {
-    this.users.length = 0;
-    this.usersSrv.getAllUsers(page).subscribe(res => {
-      this.users = res.content;
+    this.response.content.length = 0;
+    this.clientiSrv.getClienti(page).subscribe(res => {
       this.response = res;
     })
   }
+
 }
