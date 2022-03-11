@@ -28,22 +28,29 @@ import { UsersService } from '../services/users.service';
   </table>
   <nav aria-label="Page navigation example">
   <ul class="pagination">
-    <li *ngIf="currentPage > 0" class="page-item" (click)="goToPage(currentPage - 1)"><a class="page-link">Previous</a></li>
-    <li *ngIf="currentPage == 0" class="page-item"><a class="page-link">Previous</a></li>
-    <li *ngFor="let page of pages" class="page-item" (click)="goToPage(page)"><a class="page-link">{{page + 1}}</a></li>
-    <li *ngIf="currentPage < pages.length - 1" class="page-item" (click)="goToPage(currentPage + 1)"><a class="page-link">Next</a></li>
-    <li *ngIf="currentPage >= pages.length - 1" class="page-item"><a class="page-link">Next</a></li>
+    <li *ngIf="response.first == false; else elsePrevious" class="page-item" (click)="goToPage(response.number - 1)"><a class="page-link">Previous</a></li>
+    <li *ngFor="let page of pages" class="page-item" (click)="goToPage(page)"><a [ngClass]="{'active-pagination' : page == response.number}" class="page-link">{{page + 1}}</a></li>
+    <li *ngIf="!response.last; else elseNext" class="page-item" (click)="goToPage(response.number + 1)"><a class="page-link">Next</a></li>
+    <ng-template #elsePrevious><li class="page-item"><a class="page-link">Previous</a></li></ng-template>
+    <ng-template #elseNext><li class="page-item"><a class="page-link">Previous</a></li></ng-template>
   </ul>
 </nav>
   `,
-  styles: [
-  ]
+  styles: [`
+    .active-pagination {
+      background-color: lightgray;
+    }
+
+    .pagination li {
+      cursor: pointer;
+    }
+  `]
 })
 export class UtentiPage implements OnInit {
   users!: User[];
+  response!: any;
   totalPages!: number;
   pages: number[] = [];
-  currentPage: number = 0;
 
   constructor(private usersSrv: UsersService) {
   }
@@ -51,10 +58,10 @@ export class UtentiPage implements OnInit {
   ngOnInit(): void {
     this.usersSrv.getAllUsers(0).subscribe(res => {
       this.users = res.content;
+      this.response = res;
       this.totalPages = res.totalPages;
       this.pages = Array(this.totalPages).fill(0).map((x, i) => i)
       console.log(this.users);
-
     })
   }
 
@@ -62,10 +69,7 @@ export class UtentiPage implements OnInit {
     this.users.length = 0;
     this.usersSrv.getAllUsers(page).subscribe(res => {
       this.users = res.content;
+      this.response = res;
     })
-    this.currentPage = page;
-    console.log(this.currentPage);
-
   }
-
 }
