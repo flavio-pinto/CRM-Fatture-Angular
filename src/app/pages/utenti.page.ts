@@ -28,7 +28,7 @@ import { UsersService } from '../services/users.service';
   </table>
   <nav aria-label="Page navigation example">
     <ul class="pagination">
-      <li *ngIf="response.first == false; else elsePrevious" class="page-item" (click)="goToPage(response.number - 1)"><a class="page-link">Previous</a></li>
+      <li *ngIf="!response.first; else elsePrevious" class="page-item" (click)="goToPage(response.number - 1)"><a class="page-link">Previous</a></li>
       <li *ngFor="let page of pages" class="page-item" (click)="goToPage(page)"><a [ngClass]="{'active-pagination' : page == response.number}" class="page-link">{{page + 1}}</a></li>
       <li *ngIf="!response.last; else elseNext" class="page-item" (click)="goToPage(response.number + 1)"><a class="page-link">Next</a></li>
       <ng-template #elsePrevious><li class="page-item"><a class="page-link">Previous</a></li></ng-template>
