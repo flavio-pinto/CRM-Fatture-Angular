@@ -64,6 +64,9 @@ import { Component, OnInit } from '@angular/core';
           <li class="nav-item">
             <a
               class="nav-link"
+              [routerLink]="['/fatture']"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
               >Fatture</a
             >
           </li>
