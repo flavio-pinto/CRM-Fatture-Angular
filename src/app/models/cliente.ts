@@ -25,7 +25,7 @@ export interface Cliente {
         sigla: string
       }
     }
-  },
+  };
   indirizzoSedeLegale: {
     id: number,
     via: string,
@@ -41,7 +41,7 @@ export interface Cliente {
         sigla: string
       }
     }
-  },
+  };
   dataInserimento: string,
   dataUltimoContatto: string,
   fatturatoAnnuale: number
