@@ -12,4 +12,8 @@ export class ClientiService {
   getClienti(page: number) {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/clienti?page=${page}&sort=id,ASC`)
   }
+
+  getTipiCliente() {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/clienti/tipicliente`);
+  }
 }
