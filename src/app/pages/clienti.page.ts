@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Cliente } from '../models/cliente';
 import { ClientiService } from '../services/clienti.service';
 
@@ -11,7 +12,7 @@ import { ClientiService } from '../services/clienti.service';
           <th scope="col">Ragione Sociale</th>
           <th scope="col">Email</th>
           <th scope="col">Partita Iva</th>
-          <th scope="col"><button type="button" class="btn btn-success">Nuovo utente</button></th>
+          <th scope="col"><button type="button" class="btn btn-success" (click)="newCliente()">Nuovo cliente</button></th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>
@@ -58,7 +59,7 @@ export class ClientiPage implements OnInit {
   response!: any;
   pages: number[] = [];
 
-  constructor(private clientiSrv: ClientiService) { }
+  constructor(private clientiSrv: ClientiService, private router: Router) { }
 
   ngOnInit(): void {
     this.clientiSrv.getClienti(0).subscribe(res => {
@@ -72,5 +73,9 @@ export class ClientiPage implements OnInit {
     this.clientiSrv.getClienti(page).subscribe(res => {
       this.response = res;
     })
+  }
+
+  newCliente() {
+    this.router.navigate(["/nuovo-cliente"])
   }
 }

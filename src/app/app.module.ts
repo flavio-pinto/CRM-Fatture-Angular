@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar.component';
 import { UtentiPage } from './pages/utenti.page';
 import { ClientiPage } from './pages/clienti.page';
 import { FatturePage } from './pages/fatture.page';
+import { NuovoClientePage } from './pages/nuovo-cliente.page';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { FatturePage } from './pages/fatture.page';
     NavbarComponent,
     UtentiPage,
     ClientiPage,
-    FatturePage
+    FatturePage,
+    NuovoClientePage
   ],
   imports: [
     BrowserModule,
