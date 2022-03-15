@@ -200,7 +200,7 @@ export class NuovoClientePage implements OnInit {
 
   onSubmit(form: FormGroup) {
     try {
-      this.clientiSrv.newCliente(form.value, 0);
+      this.clientiSrv.formCliente(form.value, 0);
     } catch (error:any) {
       console.error(error);
     } finally {

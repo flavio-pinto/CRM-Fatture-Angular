@@ -218,7 +218,7 @@ export class ModificaClientePage implements OnInit {
     console.log(this.form);
 
     try {
-      this.clientiSrv.newCliente(form.value, this.cliente.id);
+      this.clientiSrv.formCliente(form.value, this.cliente.id);
     } catch (error:any) {
       console.error(error);
     } finally {

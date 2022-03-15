@@ -25,7 +25,8 @@ export class ClientiService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/clienti/tipicliente`);
   }
 
-  async newCliente(data: Partial<Cliente>, id: number) {
+  /* INIZIO METODO FORM */
+  async formCliente(data: Partial<Cliente>, id: number) {
     let comOp = await this.comuniSrv.getComuniById(Number(data.indirizzoSedeOperativa?.comune)).toPromise() as Comune;
     let comLeg = await this.comuniSrv.getComuniById(Number(data.indirizzoSedeLegale?.comune)).toPromise() as Comune;
 
@@ -83,5 +84,10 @@ export class ClientiService {
     } else {
       return this.http.put<any>(`${environment.apiBaseUrl}/api/clienti/${id}`, clienteData).subscribe();
     }
+  }
+  /* FINE METODO FORM  */
+
+  cancellaCliente(id: number) {
+    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`)
   }
 }
