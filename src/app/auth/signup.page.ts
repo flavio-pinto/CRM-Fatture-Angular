@@ -86,20 +86,10 @@ export class SignupPage implements OnInit {
       role: this.fb.array([], Validators.required)
     })
 
-    this.form.statusChanges.subscribe(value=> {
-      console.log(value);
-    });
-
-    this.form.valueChanges.subscribe(value=> {
-      console.log(value);
-    });
-
     this.addSelectRole();
   }
 
   async onSubmit(form: FormGroup) {
-    console.log(form.value);
-
     this.isLoading = true;
     try {
       await this.authSrv.signup(form.value).toPromise();

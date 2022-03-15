@@ -71,10 +71,6 @@ export class ClientiService {
       fatturatoAnnuale: 1000
     }
 
-
-
-    console.log(clienteData);
-
     return this.http.post<any>(`${environment.apiBaseUrl}/api/clienti`, clienteData).subscribe();
   }
 }

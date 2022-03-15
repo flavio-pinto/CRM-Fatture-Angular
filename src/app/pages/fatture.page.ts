@@ -68,8 +68,6 @@ export class FatturePage implements OnInit {
     this.fattSrv.getAllFatture(0).subscribe(res => {
       this.response = res;
       this.pages = Array(this.response.totalPages).fill(0).map((x, i) => i)
-      console.log(this.response);
-
     })
   }
 

@@ -64,7 +64,6 @@ export class UtentiPage implements OnInit {
       this.users = res.content;
       this.response = res;
       this.pages = Array(this.response.totalPages).fill(0).map((x, i) => i)
-      console.log(this.users);
     })
   }
 
