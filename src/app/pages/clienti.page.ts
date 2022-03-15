@@ -24,7 +24,7 @@ import { ClientiService } from '../services/clienti.service';
           <td>{{cliente.email}}</td>
           <td>{{cliente.partitaIva}}</td>
           <td><button type="button" class="btn btn-info">Fatture</button></td>
-          <td><button type="button" class="btn btn-warning">Modifica</button></td>
+          <td><button type="button" (click)="updateCliente(cliente.id)" class="btn btn-warning">Modifica</button></td>
           <td><button type="button" class="btn btn-danger">Elimina</button></td>
         </tr>
       </tbody>
@@ -77,5 +77,9 @@ export class ClientiPage implements OnInit {
 
   newCliente() {
     this.router.navigate(["/nuovo-cliente"])
+  }
+
+  updateCliente(id: number) {
+    this.router.navigate([`/clienti/${id}/modifica`])
   }
 }

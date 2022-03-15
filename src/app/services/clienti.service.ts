@@ -17,13 +17,20 @@ export class ClientiService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/clienti?page=${page}&sort=id,ASC`)
   }
 
+  getClienteById(id: number) {
+    return this.http.get<Cliente>(`${environment.apiBaseUrl}/api/clienti/${id}`);
+  }
+
   getTipiCliente() {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/clienti/tipicliente`);
   }
 
-  async newCliente(data: Partial<Cliente>) {
+  async newCliente(data: Partial<Cliente>, id: number) {
     let comOp = await this.comuniSrv.getComuniById(Number(data.indirizzoSedeOperativa?.comune)).toPromise() as Comune;
     let comLeg = await this.comuniSrv.getComuniById(Number(data.indirizzoSedeLegale?.comune)).toPromise() as Comune;
+
+    console.log(data);
+
 
     const clienteData: Cliente | unknown = {
       ragioneSociale: data.ragioneSociale,
@@ -71,6 +78,10 @@ export class ClientiService {
       fatturatoAnnuale: 1000
     }
 
-    return this.http.post<any>(`${environment.apiBaseUrl}/api/clienti`, clienteData).subscribe();
+    if (id === 0) {
+      return this.http.post<any>(`${environment.apiBaseUrl}/api/clienti`, clienteData).subscribe();
+    } else {
+      return this.http.put<any>(`${environment.apiBaseUrl}/api/clienti/${id}`, clienteData).subscribe();
+    }
   }
 }

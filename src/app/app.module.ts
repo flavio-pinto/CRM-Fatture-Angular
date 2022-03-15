@@ -10,6 +10,7 @@ import { ClientiPage } from './pages/clienti.page';
 import { FatturePage } from './pages/fatture.page';
 import { NuovoClientePage } from './pages/nuovo-cliente.page';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ModificaClientePage } from './pages/modifica-cliente.page';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     UtentiPage,
     ClientiPage,
     FatturePage,
-    NuovoClientePage
+    NuovoClientePage,
+    ModificaClientePage
   ],
   imports: [
     BrowserModule,
