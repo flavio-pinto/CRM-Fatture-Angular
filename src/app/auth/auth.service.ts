@@ -66,6 +66,8 @@ export class AuthService {
   }
 
   signup(data: SignupData) {
+    console.log(data);
+
     return this.http.post(`${this.baseURL}/api/auth/signup`, data).pipe(catchError(this.errors));
   }
 

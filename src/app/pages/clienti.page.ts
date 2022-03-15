@@ -41,7 +41,7 @@ import { ClientiService } from '../services/clienti.service';
       <li *ngIf="!response.last; else elseNext" class="page-item" (click)="goToPage(response.number + 1)"><a class="page-link">Next</a></li>
       <li class="page-item" (click)="goToPage(response.totalPages - 1)"><a class="page-link">Last--></a></li>
       <ng-template #elsePrevious><li class="page-item"><a class="page-link">Previous</a></li></ng-template>
-      <ng-template #elseNext><li class="page-item"><a class="page-link">Previous</a></li></ng-template>
+      <ng-template #elseNext><li class="page-item"><a class="page-link">Next</a></li></ng-template>
     </ul>
   </nav>
   `,

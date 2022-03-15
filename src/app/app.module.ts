@@ -9,6 +9,7 @@ import { UtentiPage } from './pages/utenti.page';
 import { ClientiPage } from './pages/clienti.page';
 import { FatturePage } from './pages/fatture.page';
 import { NuovoClientePage } from './pages/nuovo-cliente.page';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,9 @@ import { NuovoClientePage } from './pages/nuovo-cliente.page';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
