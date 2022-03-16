@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Fattura } from '../models/fattura';
 import { FattureService } from '../services/fatture.service';
 
@@ -15,7 +15,7 @@ import { FattureService } from '../services/fatture.service';
           <th scope="col">Importo</th>
           <th scope="col">Stato</th>
           <th scope="col">Cliente</th>
-          <th scope="col"><button type="button" class="btn btn-success">Nuova Fattura</button></th>
+          <th scope="col"><button type="button" (click)="nuovaFatturaCliente(idCliente)" class="btn btn-success">Nuova Fattura</button></th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -64,7 +64,7 @@ export class FattureClientePage implements OnInit {
   pages: number[] = [];
   idCliente!: number;
 
-  constructor(private actRoute: ActivatedRoute, private fattSrv: FattureService) { }
+  constructor(private actRoute: ActivatedRoute, private fattSrv: FattureService, private router: Router) { }
 
   ngOnInit(): void {
     this.actRoute.params.subscribe(params => {
@@ -87,6 +87,10 @@ export class FattureClientePage implements OnInit {
     this.fattSrv.getFattureByCliente(id, page).subscribe(res => {
       this.fattureCliente = res;
     })
+  }
+
+  nuovaFatturaCliente(id: number) {
+    this.router.navigate([`/clienti/${id}/fatture/genera-fattura`])
   }
 
 }
