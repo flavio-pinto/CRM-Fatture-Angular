@@ -60,7 +60,6 @@ import { FattureService } from '../services/fatture.service';
 export class FatturePage implements OnInit {
   response!: any;
   pages: number[] = [];
-  paginationLimited: any;
 
   constructor(private fattSrv: FattureService) { }
 
