@@ -16,7 +16,7 @@ import { FattureService } from '../services/fatture.service';
           <th scope="col">Stato</th>
           <th scope="col">Cliente</th>
           <th scope="col"><button type="button" (click)="nuovaFatturaCliente(idCliente)" class="btn btn-success">Nuova Fattura</button></th>
-          <th scope="col"></th>
+          <th scope="col"><button type="button" (click)="goToPage(idCliente, 0)" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></button></th>
         </tr>
       </thead>
       <tbody>
