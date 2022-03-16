@@ -99,5 +99,4 @@ export class ModificaFatturaPage implements OnInit {
       this.router.navigate([`/clienti/${this.idCliente}/fatture`])
     }
   }
-
 }

@@ -20,7 +20,7 @@ import { FattureService } from '../services/fatture.service';
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let fattura of fattureCliente.content">
+        <tr *ngFor="let fattura of fattureCliente.content; let i = index">
           <td *ngIf="fattura.id; else nullContent">{{fattura.id}}</td>
           <td *ngIf="fattura.data; else nullContent">{{fattura.data}}</td>
           <td *ngIf="fattura.numero; else nullContent">{{fattura.numero}}</td>
@@ -29,7 +29,7 @@ import { FattureService } from '../services/fatture.service';
           <td *ngIf="fattura.stato; else nullContent">{{fattura.stato.nome}}</td>
           <td *ngIf="fattura.cliente; else nullContent">{{fattura.cliente.ragioneSociale}}</td>
           <td><button type="button" (click)="modificaFattura(fattura.id)" class="btn btn-warning">Modifica</button></td>
-          <td><button type="button" class="btn btn-danger">Elimina</button></td>
+          <td><button type="button" (click)="getIndexId(fattura.id, i)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
         </tr>
         <ng-template #nullContent><td>NON DISP.</td></ng-template>
       </tbody>
@@ -48,6 +48,25 @@ import { FattureService } from '../services/fatture.service';
         <ng-template #elseNext><li class="page-item"><a class="page-link">Next</a></li></ng-template>
       </ul>
     </nav>
+
+    <!-- Modale -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Sei sicuro di voler eliminare questa fattura?</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <p class="text-danger">L'operazione non è reversibile</p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="eliminaFattura(fatturaCorrente[0], fatturaCorrente[1])">Elimina</button>
+          </div>
+        </div>
+      </div>
+    </div>
   `,
   styles: [`
     .active-pagination {
@@ -63,6 +82,7 @@ export class FattureClientePage implements OnInit {
   fattureCliente!: any;
   pages: number[] = [];
   idCliente!: number;
+  fatturaCorrente: number[] = [-50, -50];
 
   constructor(private actRoute: ActivatedRoute, private fattSrv: FattureService, private router: Router) { }
 
@@ -95,5 +115,16 @@ export class FattureClientePage implements OnInit {
 
   modificaFattura(id: number) {
     this.router.navigate([`/fatture/${id}/modifica`])
+  }
+
+  getIndexId(id: number, index: number) {
+    this.fatturaCorrente.length = 0;
+    this.fatturaCorrente = [id, index];
+  }
+
+  eliminaFattura(id: number, index: number) {
+    this.fattSrv.deleteFattura(id).subscribe();
+    this.fattureCliente.content.splice(index, 1);
+    console.log(this.fatturaCorrente);
   }
 }
