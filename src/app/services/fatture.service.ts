@@ -21,6 +21,10 @@ export class FattureService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/fatture/cliente/${id}?page=${page}&sort=id,ASC`);
   }
 
+  getFattureById(id: number) {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/fatture/${id}`);
+  }
+
   getTipiStatoFattura() {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/statifattura`);
   }
@@ -29,7 +33,7 @@ export class FattureService {
     return this.http.get<StatoFattura>(`${environment.apiBaseUrl}/api/statifattura/${id}`);
   }
 
-  async fatturaForm(data: Partial<Fattura>, id: number) {
+  async fatturaForm(data: Partial<Fattura>, id: number, idFattura: number) {
     console.log('service',data);
 
     let cliente = await this.clientiSrv.getClienteById(id).toPromise() as Cliente;
@@ -91,7 +95,10 @@ export class FattureService {
 
     console.log(fattData);
 
-
-    return this.http.post<Fattura>(`${environment.apiBaseUrl}/api/fatture`, fattData).subscribe();
+    if(idFattura == 0) {
+      return this.http.post<Fattura>(`${environment.apiBaseUrl}/api/fatture`, fattData).subscribe();
+    } else {
+      return this.http.put<Fattura>(`${environment.apiBaseUrl}/api/fatture/${idFattura}`, fattData).subscribe();
+    }
   }
 }

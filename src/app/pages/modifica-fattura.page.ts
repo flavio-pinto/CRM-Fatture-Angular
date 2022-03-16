@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Fattura } from '../models/fattura';
 import { StatoFattura } from '../models/stato-fattura';
 import { FattureService } from '../services/fatture.service';
 
@@ -28,10 +29,10 @@ import { FattureService } from '../services/fatture.service';
             </div>
             <div class="form-group mb-4">
               <label for="stato" class="mb-2">Stato</label>
-                <select formControlName="stato" class="form-select" aria-label="Default select example">
-                  <option value="" selected>Seleziona lo stato della fattura</option>
-                  <option *ngFor="let stato of statiFattura" value="{{stato.id}}">{{stato.nome}}</option>
-                </select>
+              <select formControlName="stato" class="form-select" aria-label="Default select example">
+                <option value="">Seleziona lo stato della fattura</option>
+                <option *ngFor="let stato of statiFattura" value="{{stato.id}}">{{stato.nome}}</option>
+              </select>
             </div>
             <button type="submit" class="btn btn-primary">Invia</button>
           </form>
@@ -42,18 +43,24 @@ import { FattureService } from '../services/fatture.service';
   styles: [
   ]
 })
-export class FatturaFormPage implements OnInit {
-  idCliente!: number;
+export class ModificaFatturaPage implements OnInit {
+  fattura!: Fattura;
   statiFattura!: StatoFattura[];
+  idCliente!: number;
+
   form!: FormGroup;
 
-  constructor(private fattSrv: FattureService, private actRoute: ActivatedRoute, private fb: FormBuilder, private router: Router) { }
+  constructor(private actRoute: ActivatedRoute, private fattSrv: FattureService, private fb: FormBuilder, private router: Router) { }
 
   ngOnInit(): void {
     this.actRoute.params.subscribe(params => {
       const id = +params['id'];
 
-      this.idCliente = id;
+      this.fattSrv.getFattureById(id).subscribe(res => {
+        this.fattura = res;
+        this.setDefault();
+        this.idCliente = this.fattura.cliente.id;
+      })
     })
 
     this.form = this.fb.group({
@@ -64,17 +71,28 @@ export class FatturaFormPage implements OnInit {
       stato: this.fb.control(null, Validators.required)
     })
 
-
     this.fattSrv.getTipiStatoFattura().subscribe(res => {
       this.statiFattura = res.content;
     })
   }
 
+  setDefault() {
+    this.form.patchValue({
+      data: this.fattura.data ? this.fattura.data.slice(0, 10) : new Date().toISOString().slice(0, 10),
+      numero: this.fattura.numero ? this.fattura.numero : null,
+      anno: this.fattura.anno ? this.fattura.anno : null,
+      importo: this.fattura.importo ? this.fattura.importo : null,
+      stato: this.fattura.stato ? this.fattura.stato.id : null
+    })
+  }
+
   onSubmit(form: FormGroup) {
-    console.log(form);
+    console.log(form.value);
+    console.log(this.fattura.stato);
+
 
     try {
-      this.fattSrv.fatturaForm(form.value, this.idCliente, 0);
+      this.fattSrv.fatturaForm(form.value, this.idCliente, this.fattura.id);
     } catch (error:any) {
       console.error(error);
     } finally {

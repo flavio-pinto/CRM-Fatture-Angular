@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { FattureService } from '../services/fatture.service';
 
 @Component({
@@ -26,7 +27,7 @@ import { FattureService } from '../services/fatture.service';
           <td *ngIf="fattura.importo; else nullContent">{{fattura.importo}}</td>
           <td *ngIf="fattura.stato; else nullContent">{{fattura.stato.nome}}</td>
           <td *ngIf="fattura.cliente; else nullContent">{{fattura.cliente.ragioneSociale}}</td>
-          <td><button type="button" class="btn btn-warning">Modifica</button></td>
+          <td><button type="button" (click)="modificaFattura(fattura.id)" class="btn btn-warning">Modifica</button></td>
           <td><button type="button" class="btn btn-danger">Elimina</button></td>
         </tr>
         <ng-template #nullContent><td>NON DISP.</td></ng-template>
@@ -61,7 +62,7 @@ export class FatturePage implements OnInit {
   response!: any;
   pages: number[] = [];
 
-  constructor(private fattSrv: FattureService) { }
+  constructor(private fattSrv: FattureService, private router: Router) { }
 
   ngOnInit(): void {
     this.fattSrv.getAllFatture(0).subscribe(res => {
@@ -75,5 +76,9 @@ export class FatturePage implements OnInit {
     this.fattSrv.getAllFatture(page).subscribe(res => {
       this.response = res;
     })
+  }
+
+  modificaFattura(id: number) {
+    this.router.navigate([`/fatture/${id}/modifica`])
   }
 }

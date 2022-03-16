@@ -13,6 +13,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ModificaClientePage } from './pages/modifica-cliente.page';
 import { FattureClientePage } from './pages/fatture-cliente.page';
 import { FatturaFormPage } from './pages/fattura-form.page';
+import { ModificaFatturaPage } from './pages/modifica-fattura.page';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { FatturaFormPage } from './pages/fattura-form.page';
     NuovoClientePage,
     ModificaClientePage,
     FattureClientePage,
-    FatturaFormPage
+    FatturaFormPage,
+    ModificaFatturaPage
   ],
   imports: [
     BrowserModule,
