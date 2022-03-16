@@ -12,4 +12,8 @@ export class FattureService {
   getAllFatture(page: number) {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/fatture?page=${page}&sort=id,ASC`);
   }
+
+  getFattureByCliente(id: number, page: number) {
+    return this.http.get<any>(`${environment.apiBaseUrl}/api/fatture/cliente/${id}?page=${page}&sort=id,ASC`);
+  }
 }

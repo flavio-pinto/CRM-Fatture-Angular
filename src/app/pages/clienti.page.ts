@@ -23,7 +23,7 @@ import { ClientiService } from '../services/clienti.service';
           <td>{{cliente.ragioneSociale}}</td>
           <td>{{cliente.email}}</td>
           <td>{{cliente.partitaIva}}</td>
-          <td><button type="button" class="btn btn-info">Fatture</button></td>
+          <td><button type="button" (click)="goFattureCliente(cliente.id)" class="btn btn-info">Fatture</button></td>
           <td><button type="button" (click)="updateCliente(cliente.id)" class="btn btn-warning">Modifica</button></td>
           <td><button type="button" (click)="getIndexId(cliente.id, i)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
         </tr>
@@ -95,6 +95,10 @@ export class ClientiPage implements OnInit {
     this.clientiSrv.getClienti(page).subscribe(res => {
       this.response = res;
     })
+  }
+
+  goFattureCliente(id: number) {
+    this.router.navigate([`/clienti/${id}/fatture`])
   }
 
   newCliente() {
