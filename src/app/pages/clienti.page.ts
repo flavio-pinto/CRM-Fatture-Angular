@@ -110,7 +110,6 @@ export class ClientiPage implements OnInit {
   }
 
   getIndexId(id: number, index: number) {
-    this.clienteCorrente.length = 0;
     this.clienteCorrente = [id, index];
   }
 

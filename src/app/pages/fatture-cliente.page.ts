@@ -118,7 +118,6 @@ export class FattureClientePage implements OnInit {
   }
 
   getIndexId(id: number, index: number) {
-    this.fatturaCorrente.length = 0;
     this.fatturaCorrente = [id, index];
   }
 
