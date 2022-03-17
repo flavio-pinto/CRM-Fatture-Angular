@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Cliente } from '../models/cliente';
 import { ClientiService } from '../services/clienti.service';
+import { FattureService } from '../services/fatture.service';
 
 @Component({
   template: `
@@ -79,7 +79,7 @@ export class ClientiPage implements OnInit {
   pages: number[] = [];
   clienteCorrente: number[] = [-50, -50];
 
-  constructor(private clientiSrv: ClientiService, private router: Router) { }
+  constructor(private clientiSrv: ClientiService, private fattSrv: FattureService, private router: Router) { }
 
   ngOnInit(): void {
     this.clientiSrv.getClienti(0).subscribe(res => {
@@ -111,10 +111,15 @@ export class ClientiPage implements OnInit {
 
   getIndexId(id: number, index: number) {
     this.clienteCorrente = [id, index];
+    console.log(this.clienteCorrente);
+
   }
 
   removeCliente(id: number, i: number) {
-    this.clientiSrv.cancellaCliente(id).subscribe();
+    this.fattSrv.deleteFattureByCliente(id).subscribe();
+    setTimeout(() => {
+      this.clientiSrv.cancellaCliente(id).subscribe();
+    }, 2000);
     this.response.content.splice(i, 1)
     console.log(this.clienteCorrente);
   }

@@ -88,6 +88,6 @@ export class ClientiService {
   /* FINE METODO FORM  */
 
   cancellaCliente(id: number) {
-    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`)
+    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`);
   }
 }

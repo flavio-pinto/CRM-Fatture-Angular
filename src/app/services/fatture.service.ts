@@ -37,6 +37,10 @@ export class FattureService {
     return this.http.delete(`${environment.apiBaseUrl}/api/fatture/${id}`);
   }
 
+  deleteFattureByCliente(idCliente: number) {
+    return this.http.delete(`${environment.apiBaseUrl}/api/fatture/cliente/${idCliente}`);
+  }
+
   async fatturaForm(data: Partial<Fattura>, id: number, idFattura: number) {
     console.log('service',data);
 
