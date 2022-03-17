@@ -76,7 +76,7 @@ export class ClientiService {
       },
       dataInserimento: "2019-06-01T08:11:01.911+00:00",
       dataUltimoContatto: "2019-06-01T08:11:01.911+00:00",
-      fatturatoAnnuale: 1000
+      fatturatoAnnuale: (Math.random() * (10000 - 1000) + 1000).toFixed(2)
     }
 
     if (id === 0) {
@@ -88,6 +88,6 @@ export class ClientiService {
   /* FINE METODO FORM  */
 
   cancellaCliente(id: number) {
-    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`);
+    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`)
   }
 }
