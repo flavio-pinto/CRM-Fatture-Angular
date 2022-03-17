@@ -96,9 +96,9 @@ export class FattureService {
           } : null
         } : null
       },
-      dataInserimento: "2019-06-01T08:11:01.911+00:00",
-      dataUltimoContatto: "2019-06-01T08:11:01.911+00:00",
-      fatturatoAnnuale: 1000
+      dataInserimento: new Date().toISOString().slice(0, 10),
+      dataUltimoContatto: new Date().toISOString().slice(0, 10),
+      fatturatoAnnuale: (Math.random() * (10000 - 1000) + 1000).toFixed(2)
     }
 
     console.log(fattData);

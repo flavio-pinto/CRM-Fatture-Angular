@@ -25,6 +25,10 @@ export class ClientiService {
     return this.http.get<any>(`${environment.apiBaseUrl}/api/clienti/tipicliente`);
   }
 
+  cancellaCliente(id: number) {
+    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`)
+  }
+
   /* INIZIO METODO FORM */
   async formCliente(data: Partial<Cliente>, id: number) {
     let comOp = await this.comuniSrv.getComuniById(Number(data.indirizzoSedeOperativa?.comune)).toPromise() as Comune;
@@ -74,8 +78,8 @@ export class ClientiService {
           }
         }
       },
-      dataInserimento: "2019-06-01T08:11:01.911+00:00",
-      dataUltimoContatto: "2019-06-01T08:11:01.911+00:00",
+      dataInserimento: new Date().toISOString().slice(0, 10),
+      dataUltimoContatto: new Date().toISOString().slice(0, 10),
       fatturatoAnnuale: (Math.random() * (10000 - 1000) + 1000).toFixed(2)
     }
 
@@ -87,7 +91,5 @@ export class ClientiService {
   }
   /* FINE METODO FORM  */
 
-  cancellaCliente(id: number) {
-    return this.http.delete(`${environment.apiBaseUrl}/api/clienti/${id}`)
-  }
+
 }
