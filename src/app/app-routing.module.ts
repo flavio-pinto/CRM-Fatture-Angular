@@ -50,8 +50,12 @@ const routes: Routes = [
     canActivate:[AuthGuard],
     path: 'fatture/:id/modifica',
     component: ModificaFatturaPage
-  }
-
+  },
+  {
+    path: '',
+    redirectTo: 'clienti',
+    pathMatch: 'full'
+  },
 ];
 
 @NgModule({

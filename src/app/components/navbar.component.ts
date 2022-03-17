@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../auth/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -22,10 +23,10 @@ import { Component, OnInit } from '@angular/core';
             <a
             class="nav-link active"
             aria-current="page"
-              >Home</a
+              >CRM ANGULAR</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="!isLoggedIn" class="nav-item">
             <a
               class="nav-link"
               [routerLink]="['/login']"
@@ -34,7 +35,7 @@ import { Component, OnInit } from '@angular/core';
               >Login</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="!isLoggedIn" class="nav-item">
             <a
               class="nav-link"
               [routerLink]="['/signup']"
@@ -43,7 +44,7 @@ import { Component, OnInit } from '@angular/core';
               >Signup</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="isLoggedIn" class="nav-item">
             <a
               class="nav-link"
               [routerLink]="['/utenti']"
@@ -52,7 +53,7 @@ import { Component, OnInit } from '@angular/core';
               >Utenti</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="isLoggedIn" class="nav-item">
             <a
               class="nav-link"
               [routerLink]="['/clienti']"
@@ -61,7 +62,7 @@ import { Component, OnInit } from '@angular/core';
               >Clienti</a
             >
           </li>
-          <li class="nav-item">
+          <li *ngIf="isLoggedIn" class="nav-item">
             <a
               class="nav-link"
               [routerLink]="['/fatture']"
@@ -71,10 +72,10 @@ import { Component, OnInit } from '@angular/core';
             >
           </li>
         </ul>
-        <!-- <div *ngIf="isLoggedIn">
+        <div *ngIf="isLoggedIn" class="ms-auto">
           <p class="d-inline username-welc-back">Bentornato <span class="fst-italic fw-bolder">{{welcomeUser}}</span></p>
           <button class="btn btn-danger mx-3" (click)="onLogout()">logout</button>
-        </div> -->
+        </div>
       </div>
     </div>
   </nav>
@@ -84,10 +85,29 @@ import { Component, OnInit } from '@angular/core';
   ]
 })
 export class NavbarComponent implements OnInit {
+  isLoggedIn: boolean = false;
+  welcomeUser!: string | undefined;
 
-  constructor() { }
+  constructor(private authSrv: AuthService) { }
 
   ngOnInit(): void {
+    this.authSrv.isLoggedIn$.subscribe((isLoggedIn) => {
+      this.isLoggedIn = isLoggedIn;
+    })
+
+    this.setWelcomeMessage();
   }
 
+  onLogout() {
+    this.authSrv.logout();
+  }
+
+  setWelcomeMessage() {
+    const userJson = localStorage.getItem('user');
+    if(!userJson) {
+      return;
+    }
+    const user = JSON.parse(userJson);
+    this.welcomeUser = user.username;
+  }
 }
