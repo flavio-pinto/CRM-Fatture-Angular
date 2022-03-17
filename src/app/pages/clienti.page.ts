@@ -116,11 +116,20 @@ export class ClientiPage implements OnInit {
   }
 
   removeCliente(id: number, i: number) {
-    this.fattSrv.deleteFattureByCliente(id).subscribe();
-    setTimeout(() => {
-      this.clientiSrv.cancellaCliente(id).subscribe();
-    }, 2000);
-    this.response.content.splice(i, 1)
-    console.log(this.clienteCorrente);
+    this.fattSrv.deleteFattureByCliente(id).subscribe(res => {
+      console.log(res);
+
+      this.fattSrv.getFattureByCliente(id, 0).subscribe(async res => {
+        const response = await res.content;
+        console.log(response);
+
+        if(response.length == 0) {
+          this.clientiSrv.cancellaCliente(id).subscribe();
+          this.response.content.splice(i, 1);
+        } else {
+          alert('Attenzione, ci sono ancora fatture associate a questo cliente!');
+        }
+      })
+    });
   }
 }
