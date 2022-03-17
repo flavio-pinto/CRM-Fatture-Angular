@@ -37,7 +37,6 @@ import { AuthService } from "./auth.service";
 })
 export class LoginPage implements OnInit {
   form!: FormGroup;
-  isLoading = false
   errorMessage = undefined
   constructor(private authSrv: AuthService, private router: Router, private fb: FormBuilder) {}
 

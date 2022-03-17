@@ -72,7 +72,6 @@ import { AuthService } from "./auth.service";
 })
 export class SignupPage implements OnInit {
   form!: FormGroup;
-  isLoading = false;
   errorMessage = undefined
   constructor(private authSrv: AuthService, private router: Router, private fb: FormBuilder) {}
 
@@ -90,15 +89,12 @@ export class SignupPage implements OnInit {
   }
 
   async onSubmit(form: FormGroup) {
-    this.isLoading = true;
     try {
       await this.authSrv.signup(form.value).toPromise();
       form.reset();
-      this.isLoading = false;
       this.errorMessage = undefined
       this.router.navigate(['/login'])
     } catch (error:any) {
-      this.isLoading = false;
       this.errorMessage = error
       console.error(error);
     }
