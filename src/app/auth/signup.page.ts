@@ -57,7 +57,7 @@ import { AuthService } from "./auth.service";
                 <ng-container *ngIf="getErrorController('role', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
               </span> -->
             </div>
-            <button type="submit" class="btn btn-primary">Invia</button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.status == 'INVALID' ? true : false">Invia</button>
           </form>
         </div>
       </div>
@@ -72,7 +72,7 @@ import { AuthService } from "./auth.service";
 })
 export class SignupPage implements OnInit {
   form!: FormGroup;
-  errorMessage = undefined
+  errorMessage = undefined;
   constructor(private authSrv: AuthService, private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -89,6 +89,8 @@ export class SignupPage implements OnInit {
   }
 
   async onSubmit(form: FormGroup) {
+    console.log(form);
+
     try {
       await this.authSrv.signup(form.value).toPromise();
       form.reset();
