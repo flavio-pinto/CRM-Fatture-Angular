@@ -25,7 +25,7 @@ import { FattureService } from '../services/fatture.service';
           <td *ngIf="fattura.data; else nullContent">{{fattura.data}}</td>
           <td *ngIf="fattura.numero; else nullContent">{{fattura.numero}}</td>
           <td *ngIf="fattura.anno; else nullContent">{{fattura.anno}}</td>
-          <td *ngIf="fattura.importo; else nullContent">{{fattura.importo}}</td>
+          <td *ngIf="fattura.importo; else nullContent">{{fattura.importo | currency: 'EUR'}}</td>
           <td *ngIf="fattura.stato; else nullContent">{{fattura.stato.nome}}</td>
           <td *ngIf="fattura.cliente; else nullContent">{{fattura.cliente.ragioneSociale}}</td>
           <td><button type="button" (click)="modificaFattura(fattura.id)" class="btn btn-warning">Modifica</button></td>
