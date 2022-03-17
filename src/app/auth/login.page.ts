@@ -51,7 +51,7 @@ export class LoginPage implements OnInit {
     })
   }
 
-  async onSubmit(form: any){
+  async onSubmit(form: FormGroup){
     try {
       await this.authSrv.login(form.value).toPromise()
 
