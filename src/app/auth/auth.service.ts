@@ -76,22 +76,20 @@ export class AuthService {
   }
 
   private errors(err: any) {
-    switch (err.error) {
-      case "Email and password are required":
-        return throwError("Email e password sono obbligatorie");
-        break;
-      case "Email already exists":
-        return throwError("Utente gia registrato");
-        break;
-      case "Email format is invalid":
-        return throwError("Email scritta male");
-        break;
-      case "Cannot find user":
-        return throwError("Utente non esiste");
-        break;
+    console.log(err);
 
+    switch (err.error.message) {
+      case "Error: Username is already taken!":
+        return throwError("Attenzione: Questo username esiste già!");
+        break;
+      case "Error: Email is already in use!":
+        return throwError("Attenzione: Questa email esiste già!");
+        break;
+      case "Unauthorized":
+        return throwError("Attenzione: utente inesistente o password errata");
+        break;
       default:
-        return throwError("Errore nella chiamata");
+        return throwError("Attenzione: errore nella chiamata");
         break;
     }
   }

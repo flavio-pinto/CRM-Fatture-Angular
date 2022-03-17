@@ -8,6 +8,9 @@ import { AuthService } from "./auth.service";
     <div class="container mt-5 text-center p-5">
       <div class="row">
         <div class="col">
+          <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+          </div>
           <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
             <div class="form-group mb-4">
               <label for="username" class="mb-2">Username</label>

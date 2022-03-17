@@ -8,6 +8,9 @@ import { AuthService } from "./auth.service";
     <div class="container mt-5 text-center p-5">
       <div class="row">
         <div class="col">
+          <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+            {{errorMessage}}
+          </div>
           <form [formGroup]="form" (ngSubmit)="onSubmit(form)">
             <div class="form-group mb-4">
               <label for="username" class="mb-2">Username</label>
@@ -53,9 +56,9 @@ import { AuthService } from "./auth.service";
                   <option value="user">User</option>
                 </select>
               </div>
-              <!-- <span *ngIf="!form.controls['role'].valid && form.controls['role']?.touched" class="text-danger">
-                <ng-container *ngIf="getErrorController('role', 'required')" class="text-danger">Devi selezionare un ruolo!</ng-container>
-              </span> -->
+              <span *ngIf="!form.controls['role'].valid && form.controls['role'].touched" class="text-danger">
+                Devi selezionare un ruolo!
+              </span>
             </div>
             <button type="submit" class="btn btn-primary" [disabled]="form.status == 'INVALID' ? true : false">Invia</button>
           </form>
