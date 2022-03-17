@@ -136,7 +136,7 @@ import { Comune } from './comune';
 })
 export class NuovoClientePage implements OnInit {
   form!: FormGroup;
-  tipiCliente!: any;
+  tipiCliente!: string[];
   provinceOp!: Provincia[];
   provinceLeg!: Provincia[];
   provinciaSelezionataOp!: string;

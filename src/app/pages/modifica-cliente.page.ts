@@ -139,7 +139,7 @@ export class ModificaClientePage implements OnInit {
   cliente!: Cliente;
 
   form!: FormGroup;
-  tipiCliente!: any;
+  tipiCliente!: string[];
   provinceOp!: Provincia[];
   provinceLeg!: Provincia[];
   provinciaSelezionataOp!: string;
