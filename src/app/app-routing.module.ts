@@ -29,12 +29,18 @@ const routes: Routes = [
   {
     canActivate:[AuthGuard],
     path: 'nuovo-cliente',
-    component: NuovoClientePage
+    component: NuovoClientePage,
+    data: {
+      role: 'ROLE_ADMIN'
+    }
   },
   {
     canActivate:[AuthGuard],
     path: 'clienti/:id/modifica',
-    component: ModificaClientePage
+    component: ModificaClientePage,
+    data: {
+      role: 'ROLE_ADMIN'
+    }
   },
   {
     canActivate:[AuthGuard],
@@ -44,12 +50,18 @@ const routes: Routes = [
   {
     canActivate:[AuthGuard],
     path: 'clienti/:id/fatture/genera-fattura',
-    component: FatturaFormPage
+    component: FatturaFormPage,
+    data: {
+      role: 'ROLE_ADMIN'
+    }
   },
   {
     canActivate:[AuthGuard],
     path: 'fatture/:id/modifica',
-    component: ModificaFatturaPage
+    component: ModificaFatturaPage,
+    data: {
+      role: 'ROLE_ADMIN'
+    }
   },
   {
     path: '',

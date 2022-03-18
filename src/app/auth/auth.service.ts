@@ -41,6 +41,7 @@ export class AuthService {
   private authSubject = new BehaviorSubject<null|AuthData>(null);
   user$ = this.authSubject.asObservable();
   isLoggedIn$ = this.user$.pipe(map(user=>!!user));
+  tipoUtente: string | undefined;
 
   constructor(private http: HttpClient, private router:Router) {
     this.restoreUser()
@@ -73,6 +74,21 @@ export class AuthService {
     this.authSubject.next(null)
     this.router.navigate(["/login"])
     localStorage.removeItem('user')
+  }
+
+  getRole() { //alcuni utenti per qualche motivo hanno il doppio ruolo
+    const userJson = localStorage.getItem('user');
+    if(!userJson) {
+      return
+    }
+    const user = JSON.parse(userJson);
+    if(user.roles.find((el: any) => el == 'ROLE_ADMIN')) {
+      this.tipoUtente = 'ROLE_ADMIN';
+    } else {
+      this.tipoUtente =  'ROLE_USER';
+    }
+
+    return this.tipoUtente;
   }
 
   private errors(err: any) {

@@ -27,6 +27,12 @@ export class AuthGuard implements CanActivate {
       take(1),
       map((isLoggedin) => {
         if (isLoggedin) {
+          const ruoloUtente = this.authSrv.getRole();
+          console.log(route.data);
+          if(route.data['role'] && route.data['role'].indexOf(ruoloUtente) === -1) {
+            this.router.navigate(["/utenti"]);
+            return false;
+          }
           return true;
         }
         return this.router.createUrlTree(["/login"]);
