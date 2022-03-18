@@ -73,7 +73,7 @@ import { AuthService } from '../auth/auth.service';
           </li>
         </ul>
         <div *ngIf="isLoggedIn" class="ms-auto">
-          <p class="d-inline username-welc-back">Bentornato <span class="fst-italic fw-bolder">{{welcomeUser}}</span></p>
+          <p class="d-inline username-welc-back">Bentornato <span class="fst-italic fw-bolder">{{currentUser}}</span></p>
           <button class="btn btn-danger mx-3" (click)="onLogout()">logout</button>
         </div>
       </div>
@@ -86,7 +86,6 @@ import { AuthService } from '../auth/auth.service';
 })
 export class NavbarComponent implements OnInit {
   isLoggedIn: boolean = false;
-  welcomeUser!: string | undefined;
 
   constructor(private authSrv: AuthService) { }
 
@@ -94,20 +93,18 @@ export class NavbarComponent implements OnInit {
     this.authSrv.isLoggedIn$.subscribe((isLoggedIn) => {
       this.isLoggedIn = isLoggedIn;
     })
-
-    this.setWelcomeMessage();
   }
 
   onLogout() {
     this.authSrv.logout();
   }
 
-  setWelcomeMessage() {
+  get currentUser() {
     const userJson = localStorage.getItem('user');
     if(!userJson) {
       return;
     }
     const user = JSON.parse(userJson);
-    this.welcomeUser = user.username;
+    return user.username;
   }
 }
