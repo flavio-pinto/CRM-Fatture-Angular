@@ -60,22 +60,34 @@ import { AuthService } from "./auth.service";
                 Devi selezionare un ruolo!
               </span>
             </div>
-            <button type="submit" class="btn btn-primary" [disabled]="form.status == 'INVALID' ? true : false">Invia</button>
+            <button type="submit" class="btn btn-primary" [disabled]="form.status == 'INVALID' ? true : false">
+              <div *ngIf="isLoading; else elseText" class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <ng-template #elseText>Invia</ng-template>
+            </button>
           </form>
         </div>
       </div>
     </div>
   `,
   styles: [`
-  .container {
-    border: 1px solid black;
-    width: 30em;
-  }
+    .container {
+      border: 1px solid black;
+      width: 30em;
+    }
+
+    .spinner-border {
+      width: 1rem;
+      height: 1rem;
+    }
   `],
 })
 export class SignupPage implements OnInit {
   form!: FormGroup;
   errorMessage = undefined;
+  isLoading: boolean = false;
+
   constructor(private authSrv: AuthService, private router: Router, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -92,7 +104,7 @@ export class SignupPage implements OnInit {
   }
 
   async onSubmit(form: FormGroup) {
-    console.log(form);
+    this.isLoading = true;
 
     try {
       await this.authSrv.signup(form.value).toPromise();
@@ -100,6 +112,7 @@ export class SignupPage implements OnInit {
       this.errorMessage = undefined
       this.router.navigate(['/login'])
     } catch (error:any) {
+      this.isLoading = false
       this.errorMessage = error
       console.error(error);
     }
