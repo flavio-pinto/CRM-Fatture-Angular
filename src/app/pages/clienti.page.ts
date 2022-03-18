@@ -13,7 +13,7 @@ import { FattureService } from '../services/fatture.service';
           <th scope="col">Ragione Sociale</th>
           <th scope="col">Email</th>
           <th scope="col">Partita Iva</th>
-          <th scope="col"><button [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" type="button" class="btn btn-success" (click)="newCliente()">Nuovo cliente</button></th>
+          <th scope="col"><button [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" type="button" class="btn btn-success" (click)="tipoUser == 'ROLE_ADMIN' ? newCliente() : false">Nuovo cliente</button></th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>
@@ -25,7 +25,7 @@ import { FattureService } from '../services/fatture.service';
           <td>{{cliente.email}}</td>
           <td>{{cliente.partitaIva}}</td>
           <td><button type="button" (click)="goFattureCliente(cliente.id)" class="btn btn-info">Fatture</button></td>
-          <td><button type="button" (click)="updateCliente(cliente.id)" class="btn btn-warning" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Modifica</button></td>
+          <td><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? updateCliente(cliente.id) : false" class="btn btn-warning" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Modifica</button></td>
           <td><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? getIndexId(cliente.id, i) : false" class="btn btn-danger" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
         </tr>
       </tbody>
@@ -46,7 +46,7 @@ import { FattureService } from '../services/fatture.service';
   </nav>
 
   <!-- Modale -->
-  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div *ngIf="tipoUser == 'ROLE_ADMIN'" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">

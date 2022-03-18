@@ -16,7 +16,7 @@ import { FattureService } from '../services/fatture.service';
           <th scope="col">Importo</th>
           <th scope="col">Stato</th>
           <th scope="col">Cliente</th>
-          <th scope="col"><button type="button" (click)="nuovaFatturaCliente(idCliente)" class="btn btn-success" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Nuova Fattura</button></th>
+          <th scope="col"><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? nuovaFatturaCliente(idCliente) : false" class="btn btn-success" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Nuova Fattura</button></th>
           <th scope="col"><button type="button" (click)="goToPage(idCliente, 0)" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></button></th>
         </tr>
       </thead>
@@ -29,7 +29,7 @@ import { FattureService } from '../services/fatture.service';
           <td *ngIf="fattura.importo; else nullContent">{{fattura.importo | currency: 'EUR'}}</td>
           <td *ngIf="fattura.stato; else nullContent">{{fattura.stato.nome}}</td>
           <td *ngIf="fattura.cliente; else nullContent">{{fattura.cliente.ragioneSociale}}</td>
-          <td><button type="button" (click)="modificaFattura(fattura.id)" class="btn btn-warning" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Modifica</button></td>
+          <td><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? modificaFattura(fattura.id) : false" class="btn btn-warning" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Modifica</button></td>
           <td><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? getIndexId(fattura.id, i): false" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Elimina</button></td>
         </tr>
         <ng-template #nullContent><td>NON DISP.</td></ng-template>
@@ -51,7 +51,7 @@ import { FattureService } from '../services/fatture.service';
     </nav>
 
     <!-- Modale -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div *ngIf="tipoUser == 'ROLE_ADMIN'" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
