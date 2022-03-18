@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 import { ClientiService } from '../services/clienti.service';
 import { FattureService } from '../services/fatture.service';
 
@@ -12,7 +13,7 @@ import { FattureService } from '../services/fatture.service';
           <th scope="col">Ragione Sociale</th>
           <th scope="col">Email</th>
           <th scope="col">Partita Iva</th>
-          <th scope="col"><button type="button" class="btn btn-success" (click)="newCliente()">Nuovo cliente</button></th>
+          <th scope="col"><button [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" type="button" class="btn btn-success" (click)="newCliente()">Nuovo cliente</button></th>
           <th scope="col"></th>
           <th scope="col"></th>
         </tr>
@@ -24,8 +25,8 @@ import { FattureService } from '../services/fatture.service';
           <td>{{cliente.email}}</td>
           <td>{{cliente.partitaIva}}</td>
           <td><button type="button" (click)="goFattureCliente(cliente.id)" class="btn btn-info">Fatture</button></td>
-          <td><button type="button" (click)="updateCliente(cliente.id)" class="btn btn-warning">Modifica</button></td>
-          <td><button type="button" (click)="getIndexId(cliente.id, i)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
+          <td><button type="button" (click)="updateCliente(cliente.id)" class="btn btn-warning" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Modifica</button></td>
+          <td><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? getIndexId(cliente.id, i) : false" class="btn btn-danger" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
         </tr>
       </tbody>
   </table>
@@ -34,7 +35,6 @@ import { FattureService } from '../services/fatture.service';
     <ul class="pagination">
       <li class="page-item" (click)="goToPage(0)"><a class="page-link"><--First</a></li>
       <li *ngIf="!response.first; else elsePrevious" class="page-item" (click)="goToPage(response.number - 1)"><a class="page-link">Previous</a></li>
-      <!-- <li *ngFor="let page of pages" class="page-item" (click)="goToPage(page)"><a [ngClass]="{'active-pagination' : page == response.number}" class="page-link">{{page + 1}}</a></li> -->
       <ng-container *ngFor="let page of pages">
         <li *ngIf="page < response.number + 5 && page > response.number - 5" class="page-item" (click)="goToPage(page)"><a [ngClass]="{'active-pagination' : page == response.number}" class="page-link">{{page + 1}}</a></li>
       </ng-container>
@@ -58,7 +58,7 @@ import { FattureService } from '../services/fatture.service';
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="removeCliente(clienteCorrente[0], clienteCorrente[1])">Elimina</button>
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="tipoUser == 'ROLE_ADMIN' ? removeCliente(clienteCorrente[0], clienteCorrente[1]) : false">Elimina</button>
         </div>
       </div>
     </div>
@@ -72,6 +72,11 @@ import { FattureService } from '../services/fatture.service';
     .pagination li {
       cursor: pointer;
     }
+
+    .cursor-disabled {
+      cursor: no-drop;
+      pointer-events: visible;
+    }
   `]
 })
 export class ClientiPage implements OnInit {
@@ -79,7 +84,7 @@ export class ClientiPage implements OnInit {
   pages: number[] = [];
   clienteCorrente: number[] = [-50, -50];
 
-  constructor(private clientiSrv: ClientiService, private fattSrv: FattureService, private router: Router) { }
+  constructor(private clientiSrv: ClientiService, private fattSrv: FattureService, private router: Router, private authSrv: AuthService) { }
 
   ngOnInit(): void {
     this.clientiSrv.getClienti(0).subscribe(res => {
@@ -131,5 +136,9 @@ export class ClientiPage implements OnInit {
         }
       })
     });
+  }
+
+  get tipoUser(): string | undefined {
+    return this.authSrv.tipoUtente;
   }
 }

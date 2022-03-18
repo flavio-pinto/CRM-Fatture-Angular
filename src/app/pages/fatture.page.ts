@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from '../auth/auth.service';
 import { FattureService } from '../services/fatture.service';
 
 @Component({
@@ -27,8 +28,8 @@ import { FattureService } from '../services/fatture.service';
           <td *ngIf="fattura.importo; else nullContent">{{fattura.importo | currency: 'EUR'}}</td>
           <td *ngIf="fattura.stato; else nullContent">{{fattura.stato.nome}}</td>
           <td *ngIf="fattura.cliente; else nullContent">{{fattura.cliente.ragioneSociale}}</td>
-          <td><button type="button" (click)="modificaFattura(fattura.id)" class="btn btn-warning">Modifica</button></td>
-          <td><button type="button" (click)="getIndexId(fattura.id, i)" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
+          <td><button type="button" (click)="modificaFattura(fattura.id)" class="btn btn-warning" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}">Modifica</button></td>
+          <td><button type="button" (click)="tipoUser == 'ROLE_ADMIN' ? getIndexId(fattura.id, i) : false" class="btn btn-danger" [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" data-bs-toggle="modal" data-bs-target="#exampleModal">Elimina</button></td>
         </tr>
         <ng-template #nullContent><td>NON DISP.</td></ng-template>
       </tbody>
@@ -61,7 +62,7 @@ import { FattureService } from '../services/fatture.service';
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="eliminaFattura(fatturaCorrente[0], fatturaCorrente[1])">Elimina</button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="tipoUser == 'ROLE_ADMIN' ? eliminaFattura(fatturaCorrente[0], fatturaCorrente[1]) : false">Elimina</button>
           </div>
         </div>
       </div>
@@ -75,6 +76,11 @@ import { FattureService } from '../services/fatture.service';
   .pagination li {
     cursor: pointer;
   }
+
+  .cursor-disabled {
+      cursor: no-drop;
+      pointer-events: visible;
+    }
 `]
 })
 export class FatturePage implements OnInit {
@@ -82,7 +88,7 @@ export class FatturePage implements OnInit {
   pages: number[] = [];
   fatturaCorrente: number[] = [-50, -50];
 
-  constructor(private fattSrv: FattureService, private router: Router) { }
+  constructor(private fattSrv: FattureService, private router: Router, private authSrv: AuthService) { }
 
   ngOnInit(): void {
     this.fattSrv.getAllFatture(0).subscribe(res => {
@@ -110,5 +116,9 @@ export class FatturePage implements OnInit {
     this.fattSrv.deleteFattura(id).subscribe();
     this.response.content.splice(index, 1);
     console.log(this.fatturaCorrente);
+  }
+
+  get tipoUser(): string | undefined {
+    return this.authSrv.tipoUtente;
   }
 }
