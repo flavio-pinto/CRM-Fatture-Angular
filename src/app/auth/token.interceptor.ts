@@ -27,7 +27,7 @@ export class TokenInterceptor implements HttpInterceptor {
         const newReq = request.clone({
           headers: request.headers.set(
             "Authorization",
-            `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY0NjgxNTg4NiwiZXhwIjoxNjQ3Njc5ODg2fQ.B9aQ3-8sQuqdzd6cJefnQtoTzq8IJZhc4DkMLk8IDKMneo1TavBWpHUuGa2i4JS7aG-VDCWO6Ytczf9tvyNuYg`
+            `Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImlhdCI6MTY0Nzg3NzM3MCwiZXhwIjoxNjQ4NzQxMzcwfQ.qHQyzVQGFfz0wapOFaTFu9WWPMfWiLfTHsnNo4I_97go0rc5XcBpPrRMWCMZOrNC5Sh1tRiTC2VNo8U_W8ichg`
           ).set('X-TENANT-ID', 'fe_0721a'),
         });
 
