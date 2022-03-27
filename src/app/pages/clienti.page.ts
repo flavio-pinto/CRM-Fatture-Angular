@@ -14,7 +14,7 @@ import { FattureService } from '../services/fatture.service';
           <th scope="col">Email</th>
           <th scope="col">Partita Iva</th>
           <th scope="col"><button [ngClass]="{'disabled cursor-disabled' : tipoUser == 'ROLE_USER'}" type="button" class="btn btn-success" (click)="tipoUser == 'ROLE_ADMIN' ? newCliente() : false">Nuovo cliente</button></th>
-          <th scope="col"></th>
+          <th scope="col"><button type="button" (click)="goToPage(0)" class="btn btn-secondary"><i class="bi bi-arrow-clockwise"></i></button></th>
           <th scope="col"></th>
         </tr>
       </thead>
