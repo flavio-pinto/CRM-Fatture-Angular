@@ -60,6 +60,6 @@ Creazione di un CRM per la gestione di utenti (admin o user), clienti e relative
 
 ### :arrow_forward: Anteprima Pagine Web:
 
->  Preview :desktop_computer: 
+>  Watch Preview :desktop_computer: 
 
-Watch here: 
+https://www.loom.com/share/2d3272ca943e4bc4aa5ab76d704e005b?sharedAppSource=personal_library
